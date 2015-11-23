@@ -57,21 +57,27 @@ function stackComments(){
 var PAGES_COUNT = $('div.inner>a[href^="/t/"].page_normal').length;
 var CURRENT_PAGE = 0;
 var DOMS = [$(document)];
-$('div.inner>a[href^="/t/"].page_normal').each(function(i,o){
-    $.get(o.href,function(result){
-        var resultDom = $('<output>').append($.parseHTML(result));
-        DOMS.push(resultDom);
-        fillComments(resultDom);
-        CURRENT_PAGE ++;
-        //if all comments are sucked.
-        if(CURRENT_PAGE === PAGES_COUNT){
-            //stack'em
-            stackComments();
-            //reArrange
-            reArrangeComments();
-        }
+if(PAGES_COUNT>0){
+    $('div.inner>a[href^="/t/"].page_normal').each(function(i,o){
+        $.get(o.href,function(result){
+            var resultDom = $('<output>').append($.parseHTML(result));
+            DOMS.push(resultDom);
+            fillComments(resultDom);
+            CURRENT_PAGE ++;
+            //if all comments are sucked.
+            if(CURRENT_PAGE === PAGES_COUNT){
+                //stack'em
+                stackComments();
+                //reArrange
+                reArrangeComments();
+            }
+        });
     });
-});
+}else{
+    stackComments();
+    //reArrange
+    reArrangeComments();
+}
 
 function getCommentDom(id){
     var commentDom = undefined;
