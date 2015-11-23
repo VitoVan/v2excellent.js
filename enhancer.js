@@ -41,6 +41,8 @@ var reply_stack = $(document.createElement('reply_stack')).on('mouseenter click 
             //show'em
             $(e.currentTarget).append(preComments[0].user + ': ' +
                                       preComments[0].content + '<hr>');
+        }else{
+            $(e.currentTarget).append('No Comments');            
         }
     });
 });
