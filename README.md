@@ -1,5 +1,5 @@
-### Bookmark is here
+### Bookmark this:
 
 ```javascript
-JavaScript:$.getScript('https://rawgit.com/VitoVan/v2ex-enhancer/master/enhancer.min.js');
+JavaScript:$.getScript('https://rawgit.com/VitoVan/v2ex-enhancer/master/v2excellent.min.js');
 ```
