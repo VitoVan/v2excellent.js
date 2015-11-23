@@ -1,4 +1,4 @@
-// --------------------------- Comments Enhancement -----------------------------
+/** Comments **/
 $('body').append('<style>reply_stack:before{content: "^";font-size: 9px;line-height: 9px;font-weight: 500;border-radius: 10px;display: inline-block;background-color: #f0f0f0;color: #ccc;padding: 2px 5px 2px 5px;float: right;width: 10px;text-align: center;}reply_stack{display:none;}reply_stack.shown{display: block !important;background: #000;border-radius: 3px;padding: 5px 5px 5px 14px;color: #E2E2E2;}reply_stack.shown:before {display: none;}</style>');
 var reply_stack = $(document.createElement('reply_stack'));
 reply_stack.on('mouseenter click touchend',function(e){
@@ -8,7 +8,7 @@ reply_stack.on('mouseenter click touchend',function(e){
     var parentMessages = [];
     $(e.currentTarget).parent().find('a[href^="/member"]').not('.dark').each(function(i,o){
         $(e.currentTarget).append(o.innerHTML + ': ' +
-                                  $('div[id^="r_"]:has(a[href="/member/' + o.innerHTML + '"].dark):last').find('div.reply_content').text() + '<br>');
+                                  $('div[id^="r_"]:has(a[href="/member/' + o.innerHTML + '"].dark):last').find('div.reply_content').text() + '<hr>');
         $(e.currentTarget).addClass('shown');
         parentMessages.push({
             user: o.innerHTML,
