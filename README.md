@@ -6,7 +6,7 @@ JavaScript:$.getScript('https://rawgit.com/VitoVan/v2ex-enhancer/master/v2excell
 
 ### PRs welcome!
 
-And, if you wanna some features and you don't write JavaScript, [Submit new issue](https://github.com/VitoVan/v2excellent.js/issues/new)!
+Also, if you wanna some features and you don't write JavaScript, [Submit new issue](https://github.com/VitoVan/v2excellent.js/issues/new)!
 
 --
 
