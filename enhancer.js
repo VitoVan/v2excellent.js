@@ -37,9 +37,11 @@ var reply_stack = $(document.createElement('reply_stack')).on('mouseenter click 
         var currentNo = parseInt($(o).parent().parent().find('span.no').text());
         var preComments = findPreComments(o.innerHTML, currentNo);
         $(e.currentTarget).addClass('shown');
-        //show'em
-        $(e.currentTarget).append(preComments[0].user + ': ' +
-                                  preComments[0].content + '<hr>');
+        if(preComments.length>0){
+            //show'em
+            $(e.currentTarget).append(preComments[0].user + ': ' +
+                                      preComments[0].content + '<hr>');
+        }
     });
 });
 
