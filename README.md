@@ -1,7 +1,7 @@
 ### Bookmark this:
 
 ```javascript
-JavaScript:$.getScript('https://rawgit.com/VitoVan/v2ex-enhancer/master/v2excellent.min.js');
+JavaScript:(function(){$.getScript('https://cdn.rawgit.com/VitoVan/v2ex-enhancer/master/v2excellent.min.js');})();
 ```
 
 ### PRs welcome!

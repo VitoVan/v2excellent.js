@@ -25,18 +25,43 @@ showSpinner();
 //Get comments from current page
 fillComments($('body'));
 
+//Enable Floor Specification Feature
+$('a[href="#;"]:has(img[alt="Reply"])').click(function(e){
+    var floorNo = $(e.currentTarget).parent().find('span.no').text();
+    replyContent = $("#reply_content");
+	oldContent = replyContent.val().replace(/^r#\d+ /g,'');
+	prefix = "r#" + floorNo + " ";
+	newContent = ''
+	if(oldContent.length > 0){
+	    if (oldContent != prefix) {
+	        newContent = prefix  + oldContent;
+	    }
+	} else {
+	    newContent = prefix
+	}
+	replyContent.focus();
+	replyContent.val(newContent);
+	moveEnd($("#reply_content"));    
+});
+
 //Get comment's parent
 function findParentComment(comment){
     var parent = undefined;
-    for(var i=comment.no-1;i>0;i--){
-        var cc = comments[i];
-        if($.inArray(cc.user, comment.mentioned) !== -1 && parent === undefined){
-            parent = cc;
-        }
-        //If they have conversation, then make them together.
-        if(comment.mentioned.length>0 && cc.user === comment.mentioned[0] && cc.mentioned[0] === comment.user){
-            parent = cc;
-            break;
+    var floorRegex = comment.content.match(/^r#\d+ /g);
+    if(floorRegex && floorRegex.length>0){
+        var floorNo = parseInt(floorRegex[0].match(/\d+/g)[0]);
+        parent = comments[floorNo];
+    }else{
+        for(var i=comment.no-1;i>0;i--){
+            var cc = comments[i];
+            if($.inArray(cc.user, comment.mentioned) !== -1 && parent === undefined){
+                parent = cc;
+            }
+            //If they have conversation, then make them together.
+            if(comment.mentioned.length>0 && cc.user === comment.mentioned[0] && cc.mentioned[0] === comment.user){
+                parent = cc;
+                break;
+            }
         }
     }
     return parent;
@@ -106,6 +131,7 @@ function showSpinner(){
     $('<div class="spinner"><div class="double-bounce1"></div><div class="double-bounce2"></div></div>').insertBefore(commentBox);
     commentBox.hide();
 }
+
 function reArrangeComments(){
     $('div.inner:has(a[href^="/t/"].page_normal)').remove();
     var commentBox = $('#Main>div.box:nth(1)');
