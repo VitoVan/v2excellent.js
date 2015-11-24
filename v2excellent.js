@@ -44,6 +44,27 @@ $('a[href="#;"]:has(img[alt="Reply"])').click(function(e){
 	moveEnd($("#reply_content"));    
 });
 
+//Enable Gift ClickOnce Feature
+$('a[href="/mission/daily"]').attr('id','gift_v2excellent').attr('href','#').click(function(){
+    $('#gift_v2excellent').text('正在领取......');
+    $.get('https://v2ex.com/mission/daily',function(result){
+        var giftLink = $('<output>').append($.parseHTML(result)).
+            find('input[value^="领取"]').
+            attr('onclick').match(/\/mission\/daily\/redeem\?once=\d+/g)[0];
+        $.get(giftLink,function(checkResult){
+            var okSign = $('<output>').append($.parseHTML(checkResult)).find('li.fa.fa-ok-sign');
+            if(okSign.length>0){
+                $('#gift_v2excellent').text('已领取');
+                setTimeout(function(){
+                    $('#Rightbar>.sep20:nth(1)').remove();
+                    $('#Rightbar>.box:nth(1)').remove();
+                },2000);
+            }
+        });
+    });
+    return false;
+});
+
 //Get comment's parent
 function findParentComment(comment){
     var parent = undefined;
