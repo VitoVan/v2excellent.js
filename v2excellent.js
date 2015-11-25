@@ -45,6 +45,9 @@ if(currentLocation.match(/\/t\/\d+/g)){
     }
 }
 
+//Remove #reply42 from index
+$('span.item_title>a').attr("href",function(i,val){return val.replace(/#reply\d+/g,'');});
+
 function fillComments(jqDom){
     jqDom.find('div[id^="r_"]').each(function(i,o){
         var cmno = parseInt($(o).find('span.no').text());
