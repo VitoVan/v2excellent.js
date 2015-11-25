@@ -1,4 +1,45 @@
-var comments = [];
+var currentLocation = location.href;
+//If this is the thread page
+if(currentLocation.match(/\/t\/\d+/g)){
+    var comments = [];
+    //loading
+    showSpinner();
+    //Get comments from current page
+    fillComments($('body'));
+    //Get other pages comments
+    var PAGES_COUNT = $('div.inner>a[href^="/t/"].page_normal').length;
+    var CURRENT_PAGE = 0;
+    var DOMS = [$(document)];
+    if(PAGES_COUNT>0){
+        $('div.inner>a[href^="/t/"].page_normal').each(function(i,o){
+            $.get(o.href,function(result){
+                var resultDom = $('<output>').append($.parseHTML(result));
+                DOMS.push(resultDom);
+                fillComments(resultDom);
+                CURRENT_PAGE ++;
+                //if all comments are sucked.
+                if(CURRENT_PAGE === PAGES_COUNT){
+                    //stack'em
+                    stackComments();
+                    //reArrange
+                    reArrangeComments();
+                }
+            });
+        });
+    }else{
+        stackComments();
+        //reArrange
+        reArrangeComments();
+    }
+    var floorSpecArr = currentLocation.match(/#reply\d+/g);
+    var floorSpec = floorSpecArr && floorSpecArr.length ? floorSpecArr[0] : false;
+    if(floorSpec){
+        floorSpec = floorSpec.match(/\d+/g)[0];
+        var specFloor = $('span.no').filter(function() {return $(this).text() === floorSpec;});
+        $('body').scrollTop(specFloor.offset().top - $('body').offset().top);
+    }
+}
+
 function fillComments(jqDom){
     jqDom.find('div[id^="r_"]').each(function(i,o){
         var cmno = parseInt($(o).find('span.no').text());
@@ -19,11 +60,6 @@ function fillComments(jqDom){
             };
     });
 }
-
-//loading
-showSpinner();
-//Get comments from current page
-fillComments($('body'));
 
 //Enable Floor Specification Feature
 $('a[href="#;"]:has(img[alt="Reply"])').click(function(e){
@@ -97,32 +133,6 @@ function stackComments(){
             comments.splice(i,1);
         }
     }
-}
-
-//Get other pages comments
-var PAGES_COUNT = $('div.inner>a[href^="/t/"].page_normal').length;
-var CURRENT_PAGE = 0;
-var DOMS = [$(document)];
-if(PAGES_COUNT>0){
-    $('div.inner>a[href^="/t/"].page_normal').each(function(i,o){
-        $.get(o.href,function(result){
-            var resultDom = $('<output>').append($.parseHTML(result));
-            DOMS.push(resultDom);
-            fillComments(resultDom);
-            CURRENT_PAGE ++;
-            //if all comments are sucked.
-            if(CURRENT_PAGE === PAGES_COUNT){
-                //stack'em
-                stackComments();
-                //reArrange
-                reArrangeComments();
-            }
-        });
-    });
-}else{
-    stackComments();
-    //reArrange
-    reArrangeComments();
 }
 
 function getCommentDom(id){
