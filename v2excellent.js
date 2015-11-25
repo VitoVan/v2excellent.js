@@ -1,7 +1,11 @@
+var I_AM_A_CHROME_EXT = false;
 var currentLocation = location.href;
 //If this is the thread page
 if(currentLocation.match(/\/t\/\d+/g)){
+    //Enable Reply Directly Feature
     $('div.topic_buttons').append('<a " href="#;" onclick="$(\'#reply_content\').focus();" class="tb">回复</a>');
+    //Enable Img Uploader Feature
+    enableUploadImg();
     var comments = [];
     //loading
     showSpinner();
@@ -175,4 +179,11 @@ function reArrangeComments(){
     commentBox.show();
     //removeSpinner
     $('.spinner').remove();
+}
+
+function enableUploadImg(){
+    if(I_AM_A_CHROME_EXT){
+    }else{
+        $('div.cell:contains("添加一条新回复")').append('<div class="fr"><a href="http://upload.otar.im/" target="_blank"> 上传图片</a> - </div>');
+    }
 }
