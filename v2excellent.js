@@ -1,6 +1,7 @@
 var currentLocation = location.href;
 //If this is the thread page
 if(currentLocation.match(/\/t\/\d+/g)){
+    $('div.topic_buttons').append('<a " href="#;" onclick="$(\'#reply_content\').focus();" class="tb">回复</a>');
     var comments = [];
     //loading
     showSpinner();
