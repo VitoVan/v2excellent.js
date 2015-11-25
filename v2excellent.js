@@ -1,3 +1,16 @@
+// ==UserScript==
+// @name         V2EXcellent.js
+// @namespace    http://vitovan.github.io/v2excellent.js/
+// @version      0.1.0.3
+// @description  A Better V2EX
+// @author       VitoVan
+// @include        http://www.v2ex.com/*
+// @include        https://www.v2ex.com/*
+// @include        http://v2ex.com/*
+// @include        https://v2ex.com/*
+// @grant        none
+// ==/UserScript==
+
 var I_AM_A_CHROME_EXT = false;
 var currentLocation = location.href;
 //If this is the thread page
@@ -182,7 +195,7 @@ function reArrangeComments(){
         moveComment(o,commentBox);
     });
     $('div[id^="r_"]>table>tbody>tr>td:first-child').attr('width','20');
-    $('body').append('<style>.cell{border-bottom:none;}div[id^="r_"] img.avatar{width:20px;border-radius:50%;}div[id^="r_"]>div{margin-left: 21px;}div.box>div[id^="r_"]{border-bottom: 1px solid #E2E2E2;}</style>');
+    $('body').append('<style>.cell{border-bottom:none;}div[id^="r_"] img.avatar{width:20px;height:20px;border-radius:50%;}div[id^="r_"]>div{margin-left: 21px;}div.box>div[id^="r_"]{border-bottom: 1px solid #E2E2E2;}</style>');
     commentBox.show();
     //removeSpinner
     $('.spinner').remove();
