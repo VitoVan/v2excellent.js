@@ -112,20 +112,24 @@ $('a[href="/mission/daily"]').attr('id','gift_v2excellent').attr('href','#').cli
 //Get comment's parent
 function findParentComment(comment){
     var parent = undefined;
-    var floorRegex = comment.content.match(/^r#\d+ /g);
-    if(floorRegex && floorRegex.length>0){
-        var floorNo = parseInt(floorRegex[0].match(/\d+/g)[0]);
-        parent = comments[floorNo];
-    }else{
-        for(var i=comment.no-1;i>0;i--){
-            var cc = comments[i];
-            if($.inArray(cc.user, comment.mentioned) !== -1 && parent === undefined){
-                parent = cc;
-            }
-            //If they have conversation, then make them together.
-            if(comment.mentioned.length>0 && cc.user === comment.mentioned[0] && cc.mentioned[0] === comment.user){
-                parent = cc;
-                break;
+    if(comment){
+        var floorRegex = comment.content.match(/^r#\d+ /g);
+        if(floorRegex && floorRegex.length>0){
+            var floorNo = parseInt(floorRegex[0].match(/\d+/g)[0]);
+            parent = comments[floorNo];
+        }else{
+            for(var i=comment.no-1;i>0;i--){
+                var cc = comments[i];
+                if(cc){
+                    if($.inArray(cc.user, comment.mentioned) !== -1 && parent === undefined){
+                        parent = cc;
+                    }
+                    //If they have conversation, then make them together.
+                    if(comment.mentioned.length>0 && cc.user === comment.mentioned[0] && cc.mentioned[0] === comment.user){
+                        parent = cc;
+                        break;
+                    }
+                }
             }
         }
     }
