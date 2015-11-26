@@ -1,14 +1,11 @@
 // ==UserScript==
-// @name         V2EXcellent.js
-// @namespace    http://vitovan.github.io/v2excellent.js/
-// @version      0.1.0.4
-// @description  A Better V2EX
-// @author       VitoVan
-// @include        http://www.v2ex.com/*
-// @include        https://www.v2ex.com/*
-// @include        http://v2ex.com/*
-// @include        https://v2ex.com/*
-// @grant        none
+// @name           V2EXcellent.js
+// @namespace      http://vitovan.github.io/v2excellent.js/
+// @version        0.1.0.4
+// @description    A Better V2EX
+// @author         VitoVan
+// @include        http*://*v2ex.com/t/*
+// @grant          none
 // ==/UserScript==
 
 var I_AM_A_CHROME_EXT = false;
