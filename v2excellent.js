@@ -4,7 +4,7 @@
 // @version        0.1.0.4
 // @description    A Better V2EX
 // @author         VitoVan
-// @include        http*://*v2ex.com/t/*
+// @include        http*://*v2ex.com/*
 // @grant          none
 // ==/UserScript==
 
