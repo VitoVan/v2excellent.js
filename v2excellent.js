@@ -46,13 +46,15 @@ if(currentLocation.match(/\/t\/\d+/g)){
         //reArrange
         reArrangeComments();
     }
-    var floorSpecArr = currentLocation.match(/#reply\d+/g);
-    var floorSpec = floorSpecArr && floorSpecArr.length ? floorSpecArr[0] : false;
-    if(floorSpec){
-        floorSpec = floorSpec.match(/\d+/g)[0];
-        var specFloor = $('span.no').filter(function() {return $(this).text() === floorSpec;});
-        $('body').scrollTop(specFloor.offset().top - $('body').offset().top);
-    }
+    $(document).ready(function(){
+        var floorSpecArr = currentLocation.match(/#reply\d+/g);
+        var floorSpec = floorSpecArr && floorSpecArr.length ? floorSpecArr[0] : false;
+        if(floorSpec){
+            floorSpec = floorSpec.match(/\d+/g)[0];
+            var specFloor = $('span.no').filter(function() {return $(this).text() === floorSpec;});
+            $('body').scrollTop(specFloor.offset().top - $('body').offset().top);
+        }
+    });
 }
 
 //Remove #reply42 from index
