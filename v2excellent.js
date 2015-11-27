@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name           V2EXcellent.js
 // @namespace      http://vitovan.github.io/v2excellent.js/
-// @version        0.1.0.5
+// @version        0.1.0.6
 // @description    A Better V2EX
 // @author         VitoVan
 // @include        http*://*v2ex.com/*
@@ -46,15 +46,16 @@ if(currentLocation.match(/\/t\/\d+/g)){
         //reArrange
         reArrangeComments();
     }
-    $(document).ready(function(){
-        var floorSpecArr = currentLocation.match(/#reply\d+/g);
-        var floorSpec = floorSpecArr && floorSpecArr.length ? floorSpecArr[0] : false;
-        if(floorSpec){
-            floorSpec = floorSpec.match(/\d+/g)[0];
-            var specFloor = $('span.no').filter(function() {return $(this).text() === floorSpec;});
-            $('body').scrollTop(specFloor.offset().top - $('body').offset().top);
-        }
-    });
+}
+
+function jumpToReply(){
+    var floorSpecArr = currentLocation.match(/#reply\d+/g);
+    var floorSpec = floorSpecArr && floorSpecArr.length ? floorSpecArr[0] : false;
+    if(floorSpec){
+        floorSpec = floorSpec.match(/\d+/g)[0];
+        var specFloor = $('span.no').filter(function() {return $(this).text() === floorSpec;});
+        $('body').scrollTop(specFloor.offset().top - $('body').offset().top);
+    }
 }
 
 //Remove #reply42 from index
@@ -198,6 +199,7 @@ function reArrangeComments(){
     commentBox.show();
     //removeSpinner
     $('.spinner').remove();
+    jumpToReply();
 }
 
 function enableUploadImg(){
