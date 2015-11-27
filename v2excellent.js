@@ -101,7 +101,7 @@ $('a[href="#;"]:has(img[alt="Reply"])').click(function(e){
 //Enable Gift ClickOnce Feature
 $('a[href="/mission/daily"]').attr('id','gift_v2excellent').attr('href','#').click(function(){
     $('#gift_v2excellent').text('正在领取......');
-    $.get('https://v2ex.com/mission/daily',function(result){
+    $.get('/mission/daily',function(result){
         var giftLink = $('<output>').append($.parseHTML(result)).
             find('input[value^="领取"]').
             attr('onclick').match(/\/mission\/daily\/redeem\?once=\d+/g)[0];
