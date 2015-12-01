@@ -8,7 +8,6 @@
 // @grant          none
 // ==/UserScript==
 
-var I_AM_A_CHROME_EXT = false;
 var currentLocation = location.href;
 //If this is the thread page
 if(currentLocation.match(/\/t\/\d+/g)){
@@ -206,8 +205,5 @@ function reArrangeComments(){
 }
 
 function enableUploadImg(){
-    if(I_AM_A_CHROME_EXT){
-    }else{
-        $('div.cell:contains("添加一条新回复")').append('<div class="fr"><a href="http://upload.otar.im/" target="_blank"> 上传图片</a> - </div>');
-    }
+    $('div.cell:contains("添加一条新回复")').append('<div class="fr"><a href="http://upload.otar.im/" target="_blank"> 上传图片</a> - </div>');
 }
