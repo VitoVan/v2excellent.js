@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name           V2EXcellent.js
 // @namespace      http://vitovan.github.io/v2excellent.js/
-// @version        0.1.0.7
+// @version        0.1.0.8
 // @description    A Better V2EX
 // @author         VitoVan
 // @include        http*://*v2ex.com/*
@@ -111,11 +111,14 @@ $('a[href="/mission/daily"]').attr('id','gift_v2excellent').attr('href','#').cli
         $.get(giftLink,function(checkResult){
             var okSign = $('<output>').append($.parseHTML(checkResult)).find('li.fa.fa-ok-sign');
             if(okSign.length>0){
-                $('#gift_v2excellent').text('已领取');
-                setTimeout(function(){
-                    $('#Rightbar>.sep20:nth(1)').remove();
-                    $('#Rightbar>.box:nth(1)').remove();
-                },2000);
+                $.get('/balance',function(result){
+                    var amount = $('<output>').append($.parseHTML(result)).find('table>tbody>tr:contains("每日登录"):first>td:nth(2)').text();
+                    $('#gift_v2excellent').html('已领取 <strong>' + amount + '</strong> 铜币。' );
+                    setTimeout(function(){
+                        $('#Rightbar>.sep20:nth(1)').remove();
+                        $('#Rightbar>.box:nth(1)').remove();
+                    },2000);
+                });
             }
         });
     });
