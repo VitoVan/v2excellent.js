@@ -45,6 +45,8 @@ if(currentLocation.match(/\/t\/\d+/g)){
         //reArrange
         reArrangeComments();
     }
+}else{
+    getDailyGift();
 }
 
 function jumpToReply(){
@@ -100,8 +102,13 @@ $('a[href="#;"]:has(img[alt="Reply"])').click(function(e){
 	moveEnd($("#reply_content"));    
 });
 
-//Enable Gift ClickOnce Feature
-$('a[href="/mission/daily"]').attr('id','gift_v2excellent').attr('href','#').click(function(){
+//Enable Gift AutoGet Feature
+$('a[href="/mission/daily"]').attr('id','gift_v2excellent').attr('href','#').click(function(){return false;});
+
+function getDailyGift(){
+    if($('a[href="/mission/daily"]').length === 0){
+        return;
+    }
     $('#gift_v2excellent').text('正在领取......');
     $.get('/mission/daily',function(result){
         var giftLink = $('<output>').append($.parseHTML(result)).
@@ -120,9 +127,8 @@ $('a[href="/mission/daily"]').attr('id','gift_v2excellent').attr('href','#').cli
                 });
             }
         });
-    });
-    return false;
-});
+    });    
+}
 
 //Get comment's parent
 function findParentComment(comment){
