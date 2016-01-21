@@ -97,7 +97,7 @@ $('a[href="#;"]:has(img[alt="Reply"])').click(function(e){
 	}
 	replyContent.focus();
 	replyContent.val(newContent);
-	moveEnd($("#reply_content"));    
+	moveEnd($("#reply_content"));
 });
 
 //Enable Gift ClickOnce Feature
@@ -197,7 +197,7 @@ function reArrangeComments(){
         moveComment(o,commentBox);
     });
     $('div[id^="r_"]>table>tbody>tr>td:first-child').attr('width','20');
-    $('body').append('<style>.cell{border-bottom:none;}div[id^="r_"] img.avatar{width:20px;height:20px;border-radius:50%;}div[id^="r_"]>div{margin-left: 5px;}div.box>div[id^="r_"]{border-bottom: 1px solid #E2E2E2;}</style>');
+    $('body').append('<style>.cell .cell{border-bottom:none;}div[id^="r_"] img.avatar{width:20px;height:20px;border-radius:50%;}div[id^="r_"]>div{margin-left: 5px;}</style>');
     commentBox.show();
     //removeSpinner
     $('.spinner').remove();
