@@ -47,6 +47,8 @@ if(currentLocation.match(/\/t\/\d+/g)){
         //reArrange
         reArrangeComments();
     }
+}else if(currentLocation.match(/\/new/)){
+    $('<a href="http://upload.otar.im/" target="_blank" style="padding:0 5px;">上传图片</a>').insertAfter($('button[onclick="previewTopic();"]'))    
 }
 
 function jumpToReply(){
