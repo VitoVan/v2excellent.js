@@ -1,8 +1,6 @@
-### Bookmark this:
+### Install UserScript:
 
-```javascript
-javascript:(function(){$.getScript('https://cdn.rawgit.com/VitoVan/v2excellent.js/v1.0/v2excellent.min.js');})();
-```
+https://greasyfork.org/en/scripts/14182-v2excellent-js
 
 ### PRs welcome!
 
