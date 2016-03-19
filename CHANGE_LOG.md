@@ -1,5 +1,11 @@
-### 2015/11/25 Add feature: Image Upload
-### 2015/11/25 Add feature: #reply42 Jump
-### 2015/11/25 Add feature: Gift ClickOnce
-### 2015/11/25 Add feature: Floor Specification
-### 2015/11/24 Alpha release, Add feature: Comments Stacking
+### 2016/03/19 v0.1.1.0
+## Add Image Uploader when create new thread
+## Remove V2EX default pager
+## Remove bookmarklet (*.min.js)
+
+### 2015/11/25
+## Add feature: Image Upload
+## Add feature: #reply42 Jump
+## Add feature: Gift ClickOnce
+## Add feature: Floor Specification
+## Alpha release, Add feature: Comments Stacking
