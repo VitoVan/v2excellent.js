@@ -11,6 +11,8 @@
 var currentLocation = location.href;
 //If this is the thread page
 if(currentLocation.match(/\/t\/\d+/g)){
+    // Clear Default Pager
+    $('a[href^="?p="]').parents('div.cell').remove();
     //Enable Reply Directly Feature
     $('div.topic_buttons').append('<a " href="#;" onclick="$(\'#reply_content\').focus();" class="tb">回复</a>');
     //Enable Img Uploader Feature
