@@ -11,8 +11,6 @@
 var currentLocation = location.href;
 //If this is the thread page
 if(currentLocation.match(/\/t\/\d+/g)){
-    // Clear Default Pager
-    $('a[href^="?p="]').parents('div.cell').remove();
     //Enable Reply Directly Feature
     $('div.topic_buttons').append('<a " href="#;" onclick="$(\'#reply_content\').focus();" class="tb">回复</a>');
     //Enable Img Uploader Feature
@@ -23,18 +21,18 @@ if(currentLocation.match(/\/t\/\d+/g)){
     //Get comments from current page
     fillComments($('body'));
     //Get other pages comments
-    var PAGES_COUNT = $('div.inner>a[href^="/t/"].page_normal').length;
+    var LEFT_PAGES_COUNT = $('a[href^="?p="].page_normal').length/2;
     var CURRENT_PAGE = 0;
     var DOMS = [$(document)];
-    if(PAGES_COUNT>0){
-        $('div.inner>a[href^="/t/"].page_normal').each(function(i,o){
+    if(LEFT_PAGES_COUNT>0){
+        $('a[href^="?p="].page_normal').each(function(i,o){
             $.get(o.href,function(result){
                 var resultDom = $('<output>').append($.parseHTML(result));
                 DOMS.push(resultDom);
                 fillComments(resultDom);
                 CURRENT_PAGE ++;
                 //if all comments are sucked.
-                if(CURRENT_PAGE === PAGES_COUNT){
+                if(CURRENT_PAGE === LEFT_PAGES_COUNT){
                     //stack'em
                     stackComments();
                     //reArrange
@@ -47,6 +45,8 @@ if(currentLocation.match(/\/t\/\d+/g)){
         //reArrange
         reArrangeComments();
     }
+    // Clear Default Pager
+    $('a[href^="?p="]').parents('div.cell').remove();
 }else if(currentLocation.match(/\/new/)){
     $('<a href="http://upload.otar.im/" target="_blank" style="padding:0 5px;">上传图片</a>').insertAfter($('button[onclick="previewTopic();"]'))    
 }
