@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name           V2EXcellent.js
 // @namespace      http://vitovan.github.io/v2excellent.js/
-// @version        0.1.1.2
+// @version        0.1.1.3
 // @description    A Better V2EX
 // @author         VitoVan
 // @include        http*://*v2ex.com/*
@@ -201,7 +201,7 @@ function reArrangeComments(){
         moveComment(o,commentBox);
     });
     $('div[id^="r_"]>table>tbody>tr>td:first-child').attr('width','20');
-    $('body').append('<style>.cell .cell{border-bottom:none;min-width: 250px;background-color: white;}div[id^="r_"] img.avatar{width:20px;height:20px;border-radius:50%;}div[id^="r_"]>div{margin-left: 5px;}</style>');
+    $('body').append('<style>.cell{background-color: inherit;}.cell .cell{border-bottom:none;min-width: 250px;}div[id^="r_"] img.avatar{width:20px;height:20px;border-radius:50%;}div[id^="r_"]>div{margin-left: 5px;}</style>');
     commentBox.show();
     //removeSpinner
     $('.spinner').remove();
