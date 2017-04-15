@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name           V2EXcellent.js
 // @namespace      http://vitovan.github.io/v2excellent.js/
-// @version        0.1.1.3
+// @version        1.0.0
 // @description    A Better V2EX
 // @author         VitoVan
 // @include        http*://*v2ex.com/*
@@ -89,15 +89,15 @@ function fillComments(jqDom){
 $('a[href="#;"]:has(img[alt="Reply"])').click(function(e){
     var floorNo = $(e.currentTarget).parent().find('span.no').text();
     replyContent = $("#reply_content");
-	oldContent = replyContent.val().replace(/^r#\d+ /g,'');
-	prefix = "r#" + floorNo + " ";
+	oldContent = replyContent.val().replace(/^#\d+ /g,'');
+	postfix = " " + "#" + floorNo + " ";
 	newContent = ''
 	if(oldContent.length > 0){
-	    if (oldContent != prefix) {
-	        newContent = prefix  + oldContent;
+	    if (oldContent != postfix) {
+	        newContent = oldContent + postfix;
 	    }
 	} else {
-	    newContent = prefix
+	    newContent = postfix;
 	}
 	replyContent.focus();
 	replyContent.val(newContent);
@@ -132,7 +132,7 @@ $('a[href="/mission/daily"]').attr('id','gift_v2excellent').attr('href','#').cli
 function findParentComment(comment){
     var parent = undefined;
     if(comment){
-        var floorRegex = comment.content.match(/^r#\d+ /g);
+        var floorRegex = comment.content.match(/#\d+ /g);
         if(floorRegex && floorRegex.length>0){
             var floorNo = parseInt(floorRegex[0].match(/\d+/g)[0]);
             parent = comments[floorNo];
