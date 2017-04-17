@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name           V2EXcellent.js
 // @namespace      http://vitovan.github.io/v2excellent.js/
-// @version        1.0.0
+// @version        1.0.1
 // @description    A Better V2EX
 // @author         VitoVan
 // @include        http*://*v2ex.com/*
@@ -48,7 +48,7 @@ if(currentLocation.match(/\/t\/\d+/g)){
     // Clear Default Pager
     $('a[href^="?p="]').parents('div.cell').remove();
 }else if(currentLocation.match(/\/new/)){
-    $('<a href="http://upload.otar.im/" target="_blank" style="padding:0 5px;">上传图片</a>').insertAfter($('button[onclick="previewTopic();"]'))    
+    $('<a href="https://imgur.com/upload" target="_blank" style="padding:0 5px;">上传图片</a>').insertAfter($('button[onclick="previewTopic();"]'))    
 }
 
 function jumpToReply(){
@@ -209,5 +209,5 @@ function reArrangeComments(){
 }
 
 function enableUploadImg(){
-    $('div.cell:contains("添加一条新回复")').append('<div class="fr"><a href="http://upload.otar.im/" target="_blank"> 上传图片</a> - </div>');
+    $('div.cell:contains("添加一条新回复")').append('<div class="fr"><a href="https://imgur.com/upload" target="_blank"> 上传图片</a> - </div>');
 }
