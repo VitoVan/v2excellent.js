@@ -202,7 +202,7 @@ function getCommentBox () {
   if (commentBox.length === 0) { // Maybe using mobile
     commentBox = $('#Wrapper>div.content>div.box:nth(1)');
     if ($('#v2excellent-mobile-tip').length === 0) {
-      $('<div class="cell" id="v2excellent-mobile-tip" style="background: #CC0000;font-weight: bold;text-align: center;"><span><a style="color:white;text-decoration:underline;" target="_blank" href="https://github.com/VitoVan/v2excellent.js/issues/7">About V2EXcellent.js on Mobile</a></span></div>').insertBefore('#Wrapper>div.content>div.box:nth(1)>.cell:first');
+      $('<div class="cell" id="v2excellent-mobile-tip" style="background: #CC0000;font-weight: bold;text-align: center;"><span><a style="color:white;text-decoration:underline;" target="_blank" href="https://github.com/VitoVan/v2excellent.js/issues/7#issuecomment-304674654">About V2EXcellent.js on Mobile</a></span></div>').insertBefore('#Wrapper>div.content>div.box:nth(1)>.cell:first');
     }
   }
   return commentBox;
