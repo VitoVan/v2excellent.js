@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name           V2EXcellent.js
 // @namespace      http://vitovan.github.io/v2excellent.js/
-// @version        1.0.1
+// @version        1.1.1
 // @description    A Better V2EX
 // @author         VitoVan
 // @include        http*://*v2ex.com/*
@@ -21,12 +21,18 @@ if (currentLocation.match(/\/t\/\d+/g)) {
   //Get comments from current page
   fillComments($('body'));
   //Get other pages comments
-  var LEFT_PAGES_COUNT = $('a[href^="?p="].page_normal').length/2;
+  var CURRENT_PAGE_URLS = [];
+  $('a[href].page_normal').each(function (i, o) {
+    if (CURRENT_PAGE_URLS.indexOf(o.href) === -1) {
+      CURRENT_PAGE_URLS.push(o.href);
+    }
+  });
+  var LEFT_PAGES_COUNT = CURRENT_PAGE_URLS.length;
   var CURRENT_PAGE = 0;
   var DOMS = [$(document)];
   if (LEFT_PAGES_COUNT>0) {
-    $('a[href^="?p="].page_normal').each(function(i,o) {
-      $.get(o.href,function(result) {
+    $(CURRENT_PAGE_URLS).each(function(i,o) {
+      $.get(o,function(result) {
         var resultDom = $('<output>').append($.parseHTML(result));
         DOMS.push(resultDom);
         fillComments(resultDom);
@@ -191,8 +197,19 @@ function moveComment (comment,parent) {
   }
 }
 
-function showSpinner () {
+function getCommentBox () {
   var commentBox = $('#Main>div.box:nth(1)');
+  if (commentBox.length === 0) { // Maybe using mobile
+    commentBox = $('#Wrapper>div.content>div.box:nth(1)');
+    if ($('#v2excellent-mobile-tip').length === 0) {
+      $('<div class="cell" id="v2excellent-mobile-tip" style="background: #CC0000;font-weight: bold;text-align: center;"><span><a style="color:white;text-decoration:underline;" target="_blank" href="https://github.com/VitoVan/v2excellent.js/issues/7">About V2EXcellent.js on Mobile</a></span></div>').insertBefore('#Wrapper>div.content>div.box:nth(1)>.cell:first');
+    }
+  }
+  return commentBox;
+};
+
+function showSpinner () {
+  var commentBox = getCommentBox();
   $('body').append('<style>.spinner{width:40px;height:40px;position:relative;margin:100px auto}.double-bounce1,.double-bounce2{width:100%;height:100%;border-radius:50%;background-color:#333;opacity:.6;position:absolute;top:0;left:0;-webkit-animation:sk-bounce 2.0s infinite ease-in-out;animation:sk-bounce 2.0s infinite ease-in-out}.double-bounce2{-webkit-animation-delay:-1.0s;animation-delay:-1.0s}@-webkit-keyframes sk-bounce{0%,100%{-webkit-transform:scale(0.0)}50%{-webkit-transform:scale(1.0)}}@keyframes sk-bounce{0%,100%{transform:scale(0.0);-webkit-transform:scale(0.0)}50%{transform:scale(1.0);-webkit-transform:scale(1.0)}}</style>');
   $('<div class="spinner"><div class="double-bounce1"></div><div class="double-bounce2"></div></div>').insertBefore(commentBox);
   commentBox.hide();
@@ -200,7 +217,7 @@ function showSpinner () {
 
 function reArrangeComments () {
   $('div.inner:has(a[href^="/t/"].page_normal)').remove();
-  var commentBox = $('#Main>div.box:nth(1)');
+  var commentBox = getCommentBox();
   $.each(comments,function (i,o) {
     moveComment(o,commentBox);
   });
