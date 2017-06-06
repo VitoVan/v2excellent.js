@@ -58,6 +58,23 @@ if (currentLocation.match(/\/t\/\d+/g)) {
     .insertAfter($('button[onclick="previewTopic();"]'))
 }
 
+//标记楼主
+uid = document.getElementById("Rightbar").getElementsByTagName("a")[0].href.split("/member/")[1]; //自己用户名
+if (location.href.indexOf(".com/t/") != -1) {
+  var lzname = document.getElementById("Main").getElementsByClassName("avatar")[0].parentNode.href.split("/member/")[1];
+  allname = '@' + lzname + ' ';
+  all_elem = document.getElementsByClassName("dark");
+  for (var i = 0; i < all_elem.length; i++) {
+    if (all_elem[i].innerHTML == lzname) {
+      all_elem[i].innerHTML += " <font color=green>[楼主]</font>";
+    }
+    //为回复所有人做准备
+    if (uid != all_elem[i].innerHTML && all_elem[i].href.indexOf("/member/") != -1 && all_elem[i].innerText == all_elem[i].innerHTML && allname.indexOf('@' + all_elem[i].innerHTML + ' ') == -1) {
+      allname += '@' + all_elem[i].innerHTML + ' ';
+    }
+  }
+}
+
 function jumpToReply () {
   var floorSpecArr = currentLocation.match(/#reply\d+/g);
   var floorSpec = floorSpecArr && floorSpecArr.length ? floorSpecArr[0] : false;
@@ -222,7 +239,7 @@ function reArrangeComments () {
     moveComment(o,commentBox);
   });
   $('div[id^="r_"]>table>tbody>tr>td:first-child').attr('width','20');
-  $('body').append('<style>.cell{background-color: inherit;}.cell .cell{border-bottom:none;min-width: 250px;}div[id^="r_"] img.avatar{width:20px;height:20px;border-radius:50%;}div[id^="r_"]>div{margin-left: 5px;}</style>');
+  $('body').append('<style>.cell{background-color: inherit;}.cell .cell{border-bottom:none;min-width: 250px;padding-right:0;}div[id^="r_"] img.avatar{width:20px;height:20px;border-radius:50%;}div[id^="r_"]>div{margin-left: 5px;}</style>');
   commentBox.show();
   //removeSpinner
   $('.spinner').remove();
