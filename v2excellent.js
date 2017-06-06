@@ -249,3 +249,16 @@ function reArrangeComments () {
 function enableUploadImg () {
   $('div.cell:contains("添加一条新回复")').append('<div class="fr"><a href="https://imgur.com/upload" target="_blank"> 上传图片</a> - </div>');
 }
+
+// 图片链接自动转换成图片 代码来自caoyue@v2ex
+function linksToImgs() {
+  var links = document.links;
+  for (x in links){
+    var link = links[x];
+    if (/^http.*\.(?:jpg|jpeg|jpe|bmp|png|gif)/i.test(link.href)
+        && !/<img\s/i.test(link.innerHTML)){
+      link.innerHTML = "<img title='" + link.href + "' src='" + link.href + "' />";
+    }
+  }
+}
+linksToImgs()
