@@ -1,12 +1,75 @@
 // ==UserScript==
 // @name           V2EXcellent.js
 // @namespace      http://vitovan.github.io/v2excellent.js/
-// @version        1.1.1
+// @version        1.1.2
 // @description    A Better V2EX
 // @author         VitoVan
 // @include        http*://*v2ex.com/*
 // @grant          none
 // ==/UserScript==
+
+var POST_PROCESS_FUNCS = [
+  function done() {
+    console.log('V2EXcellented!');
+  },
+];
+
+// 图片链接自动转换成图片 代码来自caoyue@v2ex
+POST_PROCESS_FUNCS.push(function linksToImgs() {
+  var links = document.links;
+  for (var x in links) {
+    var link = links[x];
+    if (
+      /^http.*\.(?:jpg|jpeg|jpe|bmp|png|gif)/i.test(link.href) &&
+      !/<img\s/i.test(link.innerHTML)
+    ) {
+      link.innerHTML =
+        "<img title='" + link.href + "' src='" + link.href + "' />";
+    }
+  }
+});
+
+POST_PROCESS_FUNCS.push(function markOp() {
+  //标记楼主
+  uid = document
+    .getElementById('Rightbar')
+    .getElementsByTagName('a')[0]
+    .href.split('/member/')[1]; //自己用户名
+  if (location.href.indexOf('.com/t/') != -1) {
+    var lzname = document
+      .getElementById('Main')
+      .getElementsByClassName('avatar')[0]
+      .parentNode.href.split('/member/')[1];
+    allname = '@' + lzname + ' ';
+    all_elem = document.getElementsByClassName('dark');
+    for (var i = 0; i < all_elem.length; i++) {
+      if (all_elem[i].innerHTML == lzname) {
+        var opWord = language === 'zh_CN' ? '楼主' : 'OP';
+        all_elem[i].innerHTML += ' <font color=green>[' + opWord + ']</font>';
+      }
+      //为回复所有人做准备
+      if (
+        uid != all_elem[i].innerHTML &&
+        all_elem[i].href.indexOf('/member/') != -1 &&
+        all_elem[i].innerText == all_elem[i].innerHTML &&
+        allname.indexOf('@' + all_elem[i].innerHTML + ' ') == -1
+      ) {
+        allname += '@' + all_elem[i].innerHTML + ' ';
+      }
+    }
+  }
+});
+
+function postProcess() {
+  $(POST_PROCESS_FUNCS).each(function(i, f) {
+    if (typeof f === 'function') {
+      f();
+      console.log('V2EXcellent Post Processing: ' + f.name);
+    }
+  });
+}
+
+var language = window.navigator.userLanguage || window.navigator.language;
 
 var currentLocation = location.href;
 //If this is the thread page
@@ -45,6 +108,8 @@ if (currentLocation.match(/\/t\/\d+/g)) {
           stackComments();
           //reArrange
           reArrangeComments();
+          // post process functions
+          postProcess();
         }
       });
     });
@@ -52,6 +117,8 @@ if (currentLocation.match(/\/t\/\d+/g)) {
     stackComments();
     //reArrange
     reArrangeComments();
+    // post process functions
+    postProcess();
   }
   // Clear Default Pager
   $('a[href^="?p="]').parents('div.cell').remove();
@@ -59,34 +126,6 @@ if (currentLocation.match(/\/t\/\d+/g)) {
   $(
     '<a href="https://imgur.com/upload" target="_blank" style="padding:0 5px;">上传图片</a>'
   ).insertAfter($('button[onclick="previewTopic();"]'));
-}
-
-//标记楼主
-uid = document
-  .getElementById('Rightbar')
-  .getElementsByTagName('a')[0]
-  .href.split('/member/')[1]; //自己用户名
-if (location.href.indexOf('.com/t/') != -1) {
-  var lzname = document
-    .getElementById('Main')
-    .getElementsByClassName('avatar')[0]
-    .parentNode.href.split('/member/')[1];
-  allname = '@' + lzname + ' ';
-  all_elem = document.getElementsByClassName('dark');
-  for (var i = 0; i < all_elem.length; i++) {
-    if (all_elem[i].innerHTML == lzname) {
-      all_elem[i].innerHTML += ' <font color=green>[楼主]</font>';
-    }
-    //为回复所有人做准备
-    if (
-      uid != all_elem[i].innerHTML &&
-      all_elem[i].href.indexOf('/member/') != -1 &&
-      all_elem[i].innerText == all_elem[i].innerHTML &&
-      allname.indexOf('@' + all_elem[i].innerHTML + ' ') == -1
-    ) {
-      allname += '@' + all_elem[i].innerHTML + ' ';
-    }
-  }
 }
 
 function jumpToReply() {
@@ -185,7 +224,7 @@ $('a[href="/mission/daily"]')
 
 //Get comment's parent
 function findParentComment(comment) {
-  var parent = undefined;
+  var parent;
   if (comment) {
     var floorRegex = comment.content.match(/#\d+ /g);
     if (floorRegex && floorRegex.length > 0) {
@@ -229,7 +268,7 @@ function stackComments() {
 }
 
 function getCommentDom(id) {
-  var commentDom = undefined;
+  var commentDom;
   $.each(DOMS, function(i, o) {
     var result = o.find('div[id="' + id + '"]');
     if (result.length > 0) {
@@ -295,19 +334,3 @@ function enableUploadImg() {
     '<div class="fr"><a href="https://imgur.com/upload" target="_blank"> 上传图片</a> - </div>'
   );
 }
-
-// 图片链接自动转换成图片 代码来自caoyue@v2ex
-function linksToImgs() {
-  var links = document.links;
-  for (x in links) {
-    var link = links[x];
-    if (
-      /^http.*\.(?:jpg|jpeg|jpe|bmp|png|gif)/i.test(link.href) &&
-      !/<img\s/i.test(link.innerHTML)
-    ) {
-      link.innerHTML =
-        "<img title='" + link.href + "' src='" + link.href + "' />";
-    }
-  }
-}
-linksToImgs();
