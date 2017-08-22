@@ -321,7 +321,7 @@ function reArrangeComments() {
   });
   $('div[id^="r_"]>table>tbody>tr>td:first-child').attr('width', '20');
   $('body').append(
-    '<style>.cell{background-color: inherit;}.cell .cell{border-bottom:none;min-width: 250px;padding-right:0;}div[id^="r_"] img.avatar{width:20px;height:20px;border-radius:50%;}div[id^="r_"]>div{margin-left: 5px;}</style>'
+    '<style>.cell{background-color: inherit;}.cell .cell{padding-bottom:0;border-bottom:none;min-width: 250px;padding-right:0;}div[id^="r_"] img.avatar{width:20px;height:20px;border-radius:50%;}div[id^="r_"]>div{margin-left: 5px;}</style>'
   );
   commentBox.show();
   //removeSpinner
