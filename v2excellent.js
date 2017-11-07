@@ -1,12 +1,16 @@
 // ==UserScript==
 // @name           V2EXcellent.js
 // @namespace      http://vitovan.github.io/v2excellent.js/
-// @version        1.1.3
+// @version        1.1.4
 // @description    A Better V2EX
 // @author         VitoVan
 // @include        http*://*v2ex.com/*
 // @grant          none
 // ==/UserScript==
+
+$(window).load(function() {
+  window.loaded = true;
+});
 
 var POST_PROCESS_FUNCS = [
   function done() {
@@ -138,7 +142,18 @@ function jumpToReply() {
     var specFloor = $('span.no').filter(function() {
       return $(this).text() === floorSpec;
     });
-    $('body').scrollTop(specFloor.offset().top - $('body').offset().top);
+    var scrollFunc = function() {
+      window.scrollTo(0, specFloor.offset().top - $('body').offset().top);
+    };
+    if (window.loaded) {
+      scrollFunc();
+    } else {
+      window.onload = function() {
+        setTimeout(function() {
+          scrollFunc();
+        }, 1);
+      };
+    }
   }
 }
 
