@@ -121,7 +121,9 @@ if (currentLocation.match(/\/t\/\d+/g)) {
     postProcess();
   }
   // Clear Default Pager
-  $('a[href^="?p="]').parents('div.cell').remove();
+  $('a[href^="?p="]')
+    .parents('div.cell')
+    .remove();
 } else if (currentLocation.match(/\/new/)) {
   $(
     '<a href="https://imgur.com/upload" target="_blank" style="padding:0 5px;">上传图片</a>'
@@ -147,12 +149,20 @@ $('span.item_title>a').attr('href', function(i, val) {
 
 function fillComments(jqDom) {
   jqDom.find('div[id^="r_"]').each(function(i, o) {
-    var cmno = parseInt($(o).find('span.no').text());
+    var cmno = parseInt(
+      $(o)
+        .find('span.no')
+        .text()
+    );
     comments[cmno] = {
       id: $(o).attr('id'),
       no: cmno,
-      user: $(o).find('strong>a').text(),
-      content: $(o).find('div.reply_content').text(),
+      user: $(o)
+        .find('strong>a')
+        .text(),
+      content: $(o)
+        .find('div.reply_content')
+        .text(),
       mentioned: (function() {
         var mentionedNames = [];
         $(o)
@@ -169,7 +179,10 @@ function fillComments(jqDom) {
 
 //Enable Floor Specification Feature
 $('a[href="#;"]:has(img[alt="Reply"])').click(function(e) {
-  var floorNo = $(e.currentTarget).parent().find('span.no').text();
+  var floorNo = $(e.currentTarget)
+    .parent()
+    .find('span.no')
+    .text();
   replyContent = $('#reply_content');
   oldContent = replyContent.val().replace(/^#\d+ /g, '');
   postfix = ' ' + '#' + floorNo + ' ';
