@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name           V2EXcellent.js
 // @namespace      http://vitovan.github.io/v2excellent.js/
-// @version        1.1.4
+// @version        1.1.5
 // @description    A Better V2EX
 // @author         VitoVan
 // @include        http*://*v2ex.com/*
+// @require //code.jquery.com/jquery-1.12.4.min.js
 // @grant          none
 // ==/UserScript==
 
