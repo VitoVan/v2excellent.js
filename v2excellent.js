@@ -9,7 +9,7 @@
 // @grant          none
 // ==/UserScript==
 
-$(window).load(function() {
+$('document').ready(function() {
   window.loaded = true;
 });
 
