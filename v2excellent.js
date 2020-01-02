@@ -81,7 +81,7 @@ var currentLocation = location.href;
 if (currentLocation.match(/\/t\/\d+/g)) {
   //Enable Reply Directly Feature
   $('div.topic_buttons').append(
-    '<a " href="#;" onclick="$(\'#reply_content\').focus();" class="tb">回复</a>'
+    ' &nbsp;<a " href="#;" onclick="$(\'#reply_content\').focus();" class="tb">回复</a>'
   );
   //Enable Img Uploader Feature
   enableUploadImg();
@@ -106,6 +106,9 @@ if (currentLocation.match(/\/t\/\d+/g)) {
         var resultDom = $('<output>').append($.parseHTML(result));
         DOMS.push(resultDom);
         fillComments(resultDom);
+        // 替换收藏的链接
+        var collectUrl = resultDom.find('.topic_buttons .tb:contains("收藏")').attr('href');
+        $('.topic_buttons .tb:contains("收藏")').attr('href', collectUrl);
         CURRENT_PAGE++;
         //if all comments are sucked.
         if (CURRENT_PAGE === LEFT_PAGES_COUNT) {
