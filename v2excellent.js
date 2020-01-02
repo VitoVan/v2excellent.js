@@ -49,7 +49,7 @@ POST_PROCESS_FUNCS.push(function markOp() {
     all_elem = document.getElementsByClassName('dark');
     for (var i = 0; i < all_elem.length; i++) {
       if (all_elem[i].innerHTML == lzname) {
-        var opWord = language === 'zh_CN' ? '楼主' : 'OP';
+        var opWord = language === 'zh-cn' ? '楼主' : 'OP';
         all_elem[i].innerHTML += ' <font color=green>[' + opWord + ']</font>';
       }
       //为回复所有人做准备
@@ -74,14 +74,14 @@ function postProcess() {
   });
 }
 
-var language = window.navigator.userLanguage || window.navigator.language;
+var language = (window.navigator.userLanguage || window.navigator.language).toLowerCase();
 
 var currentLocation = location.href;
 //If this is the thread page
 if (currentLocation.match(/\/t\/\d+/g)) {
   //Enable Reply Directly Feature
   $('div.topic_buttons').append(
-    '<a " href="#;" onclick="$(\'#reply_content\').focus();" class="tb">回复</a>'
+    ' &nbsp;<a " href="#;" onclick="$(\'#reply_content\').focus();" class="tb">回复</a>'
   );
   //Enable Img Uploader Feature
   enableUploadImg();
@@ -106,6 +106,9 @@ if (currentLocation.match(/\/t\/\d+/g)) {
         var resultDom = $('<output>').append($.parseHTML(result));
         DOMS.push(resultDom);
         fillComments(resultDom);
+        // 替换收藏的链接
+        var collectUrl = resultDom.find('.topic_buttons .tb:contains("收藏")').attr('href');
+        $('.topic_buttons .tb:contains("收藏")').attr('href', collectUrl);
         CURRENT_PAGE++;
         //if all comments are sucked.
         if (CURRENT_PAGE === LEFT_PAGES_COUNT) {
