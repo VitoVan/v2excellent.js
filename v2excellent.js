@@ -34,37 +34,6 @@ POST_PROCESS_FUNCS.push(function linksToImgs() {
   }
 });
 
-POST_PROCESS_FUNCS.push(function markOp() {
-  //标记楼主
-  uid = document
-    .getElementById('Rightbar')
-    .getElementsByTagName('a')[0]
-    .href.split('/member/')[1]; //自己用户名
-  if (location.href.indexOf('.com/t/') != -1) {
-    var lzname = document
-      .getElementById('Main')
-      .getElementsByClassName('avatar')[0]
-      .parentNode.href.split('/member/')[1];
-    allname = '@' + lzname + ' ';
-    all_elem = document.getElementsByClassName('dark');
-    for (var i = 0; i < all_elem.length; i++) {
-      if (all_elem[i].innerHTML == lzname) {
-        var opWord = language === 'zh-cn' ? '楼主' : 'OP';
-        all_elem[i].innerHTML += ' <font color=green>[' + opWord + ']</font>';
-      }
-      //为回复所有人做准备
-      if (
-        uid != all_elem[i].innerHTML &&
-        all_elem[i].href.indexOf('/member/') != -1 &&
-        all_elem[i].innerText == all_elem[i].innerHTML &&
-        allname.indexOf('@' + all_elem[i].innerHTML + ' ') == -1
-      ) {
-        allname += '@' + all_elem[i].innerHTML + ' ';
-      }
-    }
-  }
-});
-
 function postProcess() {
   $(POST_PROCESS_FUNCS).each(function(i, f) {
     if (typeof f === 'function') {
@@ -74,14 +43,16 @@ function postProcess() {
   });
 }
 
-var language = (window.navigator.userLanguage || window.navigator.language).toLowerCase();
+var language = (
+  window.navigator.userLanguage || window.navigator.language
+).toLowerCase();
 
 var currentLocation = location.href;
 //If this is the thread page
 if (currentLocation.match(/\/t\/\d+/g)) {
   //Enable Reply Directly Feature
   $('div.topic_buttons').append(
-    ' &nbsp;<a " href="#;" onclick="$(\'#reply_content\').focus();" class="tb">回复</a>'
+    ' &nbsp;<a " href="#;" onclick="$(\'#reply_content\').focus();" class="tb">回复</a>',
   );
   //Enable Img Uploader Feature
   enableUploadImg();
@@ -107,7 +78,9 @@ if (currentLocation.match(/\/t\/\d+/g)) {
         DOMS.push(resultDom);
         fillComments(resultDom);
         // 替换收藏的链接
-        var collectUrl = resultDom.find('.topic_buttons .tb:contains("收藏")').attr('href');
+        var collectUrl = resultDom
+          .find('.topic_buttons .tb:contains("收藏")')
+          .attr('href');
         $('.topic_buttons .tb:contains("收藏")').attr('href', collectUrl);
         CURRENT_PAGE++;
         //if all comments are sucked.
@@ -134,7 +107,7 @@ if (currentLocation.match(/\/t\/\d+/g)) {
     .remove();
 } else if (currentLocation.match(/\/new/)) {
   $(
-    '<a href="https://imgur.com/upload" target="_blank" style="padding:0 5px;">上传图片</a>'
+    '<a href="https://imgur.com/upload" target="_blank" style="padding:0 5px;">上传图片</a>',
   ).insertAfter($('button[onclick="previewTopic();"]'));
 }
 
@@ -171,7 +144,7 @@ function fillComments(jqDom) {
     var cmno = parseInt(
       $(o)
         .find('span.no')
-        .text()
+        .text(),
     );
     comments[cmno] = {
       id: $(o).attr('id'),
@@ -241,7 +214,7 @@ $('a[href="/mission/daily"]')
               .find('table>tbody>tr:contains("每日登录"):first>td:nth(2)')
               .text();
             $('#gift_v2excellent').html(
-              '已领取 <strong>' + amount + '</strong> 铜币。'
+              '已领取 <strong>' + amount + '</strong> 铜币。',
             );
             setTimeout(function() {
               $('#Rightbar>.sep20:nth(1)').remove();
@@ -327,7 +300,7 @@ function getCommentBox() {
     commentBox = $('#Wrapper>div.content>div.box:nth(1)');
     if ($('#v2excellent-mobile-tip').length === 0) {
       $(
-        '<div class="cell" id="v2excellent-mobile-tip" style="background: #CC0000;font-weight: bold;text-align: center;"><span><a style="color:white;text-decoration:underline;" target="_blank" href="https://github.com/VitoVan/v2excellent.js/issues/7#issuecomment-304674654">About V2EXcellent.js on Mobile</a></span></div>'
+        '<div class="cell" id="v2excellent-mobile-tip" style="background: #CC0000;font-weight: bold;text-align: center;"><span><a style="color:white;text-decoration:underline;" target="_blank" href="https://github.com/VitoVan/v2excellent.js/issues/7#issuecomment-304674654">About V2EXcellent.js on Mobile</a></span></div>',
       ).insertBefore('#Wrapper>div.content>div.box:nth(1)>.cell:first');
     }
   }
@@ -337,10 +310,10 @@ function getCommentBox() {
 function showSpinner() {
   var commentBox = getCommentBox();
   $('body').append(
-    '<style>.spinner{width:40px;height:40px;position:relative;margin:100px auto}.double-bounce1,.double-bounce2{width:100%;height:100%;border-radius:50%;background-color:#333;opacity:.6;position:absolute;top:0;left:0;-webkit-animation:sk-bounce 2.0s infinite ease-in-out;animation:sk-bounce 2.0s infinite ease-in-out}.double-bounce2{-webkit-animation-delay:-1.0s;animation-delay:-1.0s}@-webkit-keyframes sk-bounce{0%,100%{-webkit-transform:scale(0.0)}50%{-webkit-transform:scale(1.0)}}@keyframes sk-bounce{0%,100%{transform:scale(0.0);-webkit-transform:scale(0.0)}50%{transform:scale(1.0);-webkit-transform:scale(1.0)}}</style>'
+    '<style>.spinner{width:40px;height:40px;position:relative;margin:100px auto}.double-bounce1,.double-bounce2{width:100%;height:100%;border-radius:50%;background-color:#333;opacity:.6;position:absolute;top:0;left:0;-webkit-animation:sk-bounce 2.0s infinite ease-in-out;animation:sk-bounce 2.0s infinite ease-in-out}.double-bounce2{-webkit-animation-delay:-1.0s;animation-delay:-1.0s}@-webkit-keyframes sk-bounce{0%,100%{-webkit-transform:scale(0.0)}50%{-webkit-transform:scale(1.0)}}@keyframes sk-bounce{0%,100%{transform:scale(0.0);-webkit-transform:scale(0.0)}50%{transform:scale(1.0);-webkit-transform:scale(1.0)}}</style>',
   );
   $(
-    '<div class="spinner"><div class="double-bounce1"></div><div class="double-bounce2"></div></div>'
+    '<div class="spinner"><div class="double-bounce1"></div><div class="double-bounce2"></div></div>',
   ).insertBefore(commentBox);
   commentBox.hide();
 }
@@ -354,7 +327,7 @@ function reArrangeComments() {
   $('div[id^="r_"]>table>tbody>tr>td:first-child').attr('width', '20');
   $('td img.avatar').css('width', '');
   $('body').append(
-    '<style>.cell{background-color: inherit;}.cell .cell{padding-bottom:0;border-bottom:none;min-width: 250px;padding-right:0;}div[id^="r_"] img.avatar{width:20px;height:20px;border-radius:50%;}div[id^="r_"]>div{margin-left: 5px;}</style>'
+    '<style>.cell{background-color: inherit;}.cell .cell{padding-bottom:0;border-bottom:none;min-width: 250px;padding-right:0;}div[id^="r_"] img.avatar{width:20px;height:20px;border-radius:50%;}div[id^="r_"]>div{margin-left: 5px;}</style>',
   );
   commentBox.show();
   //removeSpinner
@@ -364,6 +337,6 @@ function reArrangeComments() {
 
 function enableUploadImg() {
   $('div.cell:contains("添加一条新回复")').append(
-    '<div class="fr"><a href="https://imgur.com/upload" target="_blank"> 上传图片</a> - </div>'
+    '<div class="fr"><a href="https://imgur.com/upload" target="_blank"> 上传图片</a> - </div>',
   );
 }
