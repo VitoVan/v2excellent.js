@@ -1,19 +1,23 @@
 // ==UserScript==
 // @name           V2EXcellent.js
 // @namespace      http://vitovan.github.io/v2excellent.js/
-// @version        1.1.9
+// @version        1.1.10
 // @description    A Better V2EX
 // @author         VitoVan
 // @include        http*://*v2ex.com/*
-// @require //code.jquery.com/jquery-1.12.4.min.js
 // @require https://cdnjs.cloudflare.com/ajax/libs/markdown-it/8.4.2/markdown-it.min.js
-// @require https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js
 // @grant          none
 // ==/UserScript==
 
 $('document').ready(function() {
   window.loaded = true;
 });
+
+var POST_PROCESS_FUNCS = [
+  function done() {
+    console.log('V2EXcellented!');
+  },
+];
 
 // markdown-it 初始化
 var md = window.markdownit({
@@ -30,12 +34,6 @@ var md = window.markdownit({
     return ''; // use external default escaping
   }
 });
-
-var POST_PROCESS_FUNCS = [
-  function done() {
-    console.log('V2EXcellented!');
-  },
-];
 
 // 图片链接自动转换成图片 代码来自caoyue@v2ex
 POST_PROCESS_FUNCS.push(function linksToImgs() {
