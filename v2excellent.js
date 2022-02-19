@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name           V2EXcellent.js
 // @namespace      http://vitovan.github.io/v2excellent.js/
-// @version        1.1.8
+// @version        1.1.9
 // @description    A Better V2EX
 // @author         VitoVan
 // @include        http*://*v2ex.com/*
@@ -29,7 +29,7 @@ POST_PROCESS_FUNCS.push(function linksToImgs() {
       !/<img\s/i.test(link.innerHTML)
     ) {
       link.innerHTML =
-        "<img title='" + link.href + "' src='" + link.href + "' />";
+        "<img title='" + link.href + "' src='" + link.href + "' style='max-width:100%' />";
     }
   }
 });
