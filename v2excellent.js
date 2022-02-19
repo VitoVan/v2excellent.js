@@ -6,11 +6,29 @@
 // @author         VitoVan
 // @include        http*://*v2ex.com/*
 // @require //code.jquery.com/jquery-1.12.4.min.js
+// @require https://cdnjs.cloudflare.com/ajax/libs/markdown-it/8.4.2/markdown-it.min.js
+// @require https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js
 // @grant          none
 // ==/UserScript==
 
 $('document').ready(function() {
   window.loaded = true;
+});
+
+// markdown-it 初始化
+var md = window.markdownit({
+    html: true,
+    linkify: true,
+    breaks: true,
+    langPrefix: "hljs ",
+    highlight: function (str, lang) {
+    if (lang && hljs.getLanguage(lang)) {
+      try {
+        return hljs.highlight(lang, str).value;
+      } catch (__) { }
+    }
+    return ''; // use external default escaping
+  }
 });
 
 var POST_PROCESS_FUNCS = [
@@ -32,6 +50,16 @@ POST_PROCESS_FUNCS.push(function linksToImgs() {
         "<img title='" + link.href + "' src='" + link.href + "' style='max-width:100%' />";
     }
   }
+});
+
+
+// 回复内容做markdown渲染
+POST_PROCESS_FUNCS.push(function mdRender() {
+   $(".reply_content").each(function(index, item) {
+       var replyContent = $(item).html();
+       replyContent = replyContent.replace(/<br\s*\/?>/gi,"\r\n");
+       $(item).html(md.render(replyContent));
+   });
 });
 
 function postProcess() {
