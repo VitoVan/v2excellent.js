@@ -19,6 +19,13 @@ var POST_PROCESS_FUNCS = [
   },
 ];
 
+//Fix night mode
+var divWrapper = document.getElementById("Wrapper");
+if(divWrapper.className == 'Night'){
+    divWrapper.style.backgroundColor ='#00000000';
+    divWrapper.style.backgroundImage ="url('/static/img/shadow.png'), url('//static.v2ex.com/bgs/pixels.png')";
+}
+
 // markdown-it 初始化
 var md = window.markdownit({
     html: true,
