@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name           V2EXcellent.js
 // @namespace      http://vitovan.github.io/v2excellent.js/
-// @version        1.1.11
+// @version        1.1.12
 // @description    A Better V2EX
 // @author         VitoVan
 // @include        http*://*v2ex.com/*
@@ -326,22 +326,42 @@ function moveComment(comment, parent) {
   }
 }
 
+var cachedCommentBox;
+
 function getCommentBox() {
-  var commentBox = $('#Main>div.box:nth(1)');
+  if (cachedCommentBox && cachedCommentBox.length) {
+    return cachedCommentBox;
+  }
+  // Topic metadata can occupy its own box. Locate the actual replies instead
+  // of relying on the position of a box among its siblings.
+  var commentBox = $('#Main div[id^="r_"]')
+    .has('div.reply_content')
+    .first()
+    .closest('div.box');
   if (commentBox.length === 0) {
     // Maybe using mobile
-    commentBox = $('#Wrapper>div.content>div.box:nth(1)');
+    commentBox = $('#Wrapper>div.content div[id^="r_"]')
+      .has('div.reply_content')
+      .first()
+      .closest('div.box');
+    if (commentBox.length === 0) {
+      return commentBox;
+    }
     if ($('#v2excellent-mobile-tip').length === 0) {
       $(
         '<div class="cell" id="v2excellent-mobile-tip" style="background: #CC0000;font-weight: bold;text-align: center;"><span><a style="color:white;text-decoration:underline;" target="_blank" href="https://github.com/VitoVan/v2excellent.js/issues/7#issuecomment-304674654">About V2EXcellent.js on Mobile</a></span></div>',
-      ).insertBefore('#Wrapper>div.content>div.box:nth(1)>.cell:first');
+      ).insertBefore(commentBox.children('.cell').first());
     }
   }
+  cachedCommentBox = commentBox;
   return commentBox;
 }
 
 function showSpinner() {
   var commentBox = getCommentBox();
+  if (commentBox.length === 0) {
+    return;
+  }
   $('body').append(
     '<style>.spinner{width:40px;height:40px;position:relative;margin:100px auto}.double-bounce1,.double-bounce2{width:100%;height:100%;border-radius:50%;background-color:#333;opacity:.6;position:absolute;top:0;left:0;-webkit-animation:sk-bounce 2.0s infinite ease-in-out;animation:sk-bounce 2.0s infinite ease-in-out}.double-bounce2{-webkit-animation-delay:-1.0s;animation-delay:-1.0s}@-webkit-keyframes sk-bounce{0%,100%{-webkit-transform:scale(0.0)}50%{-webkit-transform:scale(1.0)}}@keyframes sk-bounce{0%,100%{transform:scale(0.0);-webkit-transform:scale(0.0)}50%{transform:scale(1.0);-webkit-transform:scale(1.0)}}</style>',
   );
